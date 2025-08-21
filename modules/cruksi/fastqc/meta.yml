@@ -1,0 +1,6 @@
+name: fastqc
+namespace: cruksi
+description: Quality control for FASTQ files using FastQC
+keywords: [QC, FASTQ, FastQC]
+maintainer: "@siddharthjayaraman"
+version: "1.0.0"

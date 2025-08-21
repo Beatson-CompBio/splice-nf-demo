@@ -1,0 +1,9 @@
+.nextflow*
+work/
+results/
+.nf-test/
+.DS_Store
+*.log
+*.tmp
+*.bak
+*.sif

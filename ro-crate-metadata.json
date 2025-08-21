@@ -1,0 +1,10 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@id": "ro-crate-metadata.json",
+  "@type": "ComputationalWorkflow",
+  "conformsTo": { "@id": "https://w3id.org/ro/crate/1.1" },
+  "about": { "@id": "./" },
+  "name": "splice-nf-demo FASTQ QC with FastQC and MultiQC Report",
+  "version": "0.1.0",
+  "programmingLanguage": {"@id": "https://nextflow.io"}
+}

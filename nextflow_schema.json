@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "splice-nf-demo parameters",
+  "type": "object",
+  "properties": {
+    "input": {"type": ["string","null"], "format": "file-path", "description": "CSV samplesheet"},
+    "reads": {"type": ["string","null"], "description": "Glob for FASTQ files e.g. 'reads/*.fastq.gz'"},
+    "outdir": {"type": "string", "default": "results"},
+
+    "packaging": {"type": ["string","null"], "enum": ["conda","apptainer", null]},
+    "fastqc_sif":  {"type": ["string","null"], "format": "file-path"},
+    "multiqc_sif": {"type": ["string","null"], "format": "file-path"},
+
+    "skip_fastqc":  {"type": "boolean", "default": false},
+    "skip_multiqc": {"type": "boolean", "default": false},
+    "multiqc_config": {"type": ["string","null"], "format": "file-path"},
+
+    "max_cpus":   {"type": "integer", "default": 8},
+    "max_memory": {"type": "string",  "default": "32 GB"},
+    "max_time":   {"type": "string",  "default": "24h"}
+  },
+  "required": [],
+  "additionalProperties": true
+}

@@ -1,0 +1,11 @@
+# Methods description for SPLICE FASTQ QC
+fastqc:
+  version: "0.12.1"
+  description: |
+    FastQC was used to perform per file quality control of sequencing reads.
+    It reports per base sequence quality, GC content, adapter content and other metrics.
+multiqc:
+  version: "1.30"
+  description: |
+    MultiQC aggregated FastQC reports into a single dashboard for easier review.
+    The report was generated with a custom title and includes static assets only.

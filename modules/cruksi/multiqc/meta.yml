@@ -1,0 +1,6 @@
+name: multiqc
+namespace: cruksi
+description: Aggregate FastQC and other tool outputs into a single HTML report
+keywords: [QC, reporting, MultiQC]
+maintainer: "@siddharthjayaraman"
+version: "1.0.0"

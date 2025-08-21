@@ -1,0 +1,6 @@
+# Minimal MultiQC config for SPLICE
+report_header_info:
+  - Software: "SPLICE FASTQ QC Report"
+  - Contact:  ""
+  - Methods:  "See methods_description in output folder"
+title: "SPLICE FASTQ QC Report"

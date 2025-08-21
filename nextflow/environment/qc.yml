@@ -1,0 +1,9 @@
+name: splice-qc
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.11
+  - fastqc=0.12.1
+  - multiqc=1.30
+  - gzip

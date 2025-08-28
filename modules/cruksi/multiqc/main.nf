@@ -5,8 +5,10 @@ process MULTIQC {
   memory '1 GB'
   time '2h'
 
-  conda (params.packaging == 'conda' ? "${projectDir}/nextflow/environment/qc.yml" : null)
-  container (params.packaging == 'apptainer' && params.multiqc_sif ? params.multiqc_sif : null)
+  conda "${moduleDir}/environment.yml"
+  container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+      'https://depot.galaxyproject.org/singularity/multiqc:1.30--pyhdfd78af_0' :
+      'biocontainers/multiqc:1.30--pyhdfd78af_0' }"
 
   input:
     // Any value to act as a barrier to FastQC completion

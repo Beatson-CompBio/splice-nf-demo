@@ -1,0 +1,23 @@
+// nextflow DSL2 tests for FASTQC (Conda)
+nextflow_enable.dsl=2
+include { FASTQC } from '../../main.nf'
+
+test("FASTQC: produces html+zip for a tiny read") {
+  setup:
+  def meta = [ id: 'tiny', lane:null, platform:null, center:null, batch:null ]
+  def fq   = file("data/tiny_R1.fastq.gz")
+  // if you prefer, generate on the fly:
+  // gz("@SEQ\nACGT\n+\n!!!!\n", fq)
+
+  when:
+  params.packaging = 'conda'
+  params.outdir    = "${projectDir}/_results_fastqc"
+  def out = FASTQC( tuple(meta, fq) )
+
+  then:
+  out.html.assertExists()
+  out.zip.assertExists()
+  file("${params.outdir}/qc/fastqc").glob("*.html").size() == 1
+  file("${params.outdir}/qc/fastqc").glob("*.zip").size()  == 1
+}
+

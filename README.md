@@ -1,5 +1,7 @@
 # splice-nf-demo
 
+[![Module Tests](https://img.shields.io/endpoint?url=https://gist.github.com/siddharthjayaraman/99f7f05dbdeb549636f776a6867a448c/raw/test-badge.json)](https://github.com/Beatson-CompBio/splice-nf-demo/actions/workflows/nf-test.yml)
+
 A minimal SPLICE-compliant Nextflow DSL2 workflow that runs FastQC then MultiQC.
 Designed for TRE environments with no internet access, while still supporting
 Conda and Apptainer for testing outside TRE.

@@ -24,17 +24,12 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
-      - name: Set up Singularity
-        uses: eWaterCycle/setup-singularity@v7
-        with:
-          singularity-version: 3.8.3
-
       - name: Set up nf-test
         uses: nf-core/setup-nf-test@v1
 
-      - name: Run nf-test
+      - name: Run nf-test with Docker
         run: |
-          nf-test test --profile=singularity --verbose
+          nf-test test --profile=docker --verbose
 
       - name: Upload test results
         if: always()

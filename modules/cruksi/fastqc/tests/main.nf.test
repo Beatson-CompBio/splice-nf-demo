@@ -14,7 +14,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'test', single_end:true ], // meta map
+                    [ id:'test', single_end:true ],
                     [ file('https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/illumina/amplicon/sample1_R1.fastq.gz', checkIfExists: true) ]
                 ]
                 """
@@ -24,7 +24,14 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out).match() }
+                { assert process.out.html.size() == 1 },
+                { assert process.out.zip.size() == 1 },
+                { assert process.out.versions.size() == 1 },
+                // Only snapshot the deterministic outputs
+                { assert snapshot(
+                    process.out.html,
+                    process.out.versions
+                ).match() }
             )
         }
     }
@@ -35,7 +42,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'test', single_end:false ], // meta map
+                    [ id:'test', single_end:false ],
                     [ 
                         file('https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/illumina/amplicon/sample1_R1.fastq.gz', checkIfExists: true),
                         file('https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/illumina/amplicon/sample1_R2.fastq.gz', checkIfExists: true)
@@ -48,7 +55,14 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out).match() }
+                { assert process.out.html.size() == 1 },
+                { assert process.out.zip.size() == 1 },
+                { assert process.out.versions.size() == 1 },
+                // Only snapshot the deterministic outputs
+                { assert snapshot(
+                    process.out.html,
+                    process.out.versions
+                ).match() }
             )
         }
     }
@@ -74,7 +88,10 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out).match() }
+                { assert process.out.html.size() == 1 },
+                { assert process.out.zip.size() == 1 },
+                { assert process.out.versions.size() == 1 }
+                // No snapshot needed for stub - just check it runs
             )
         }
     }

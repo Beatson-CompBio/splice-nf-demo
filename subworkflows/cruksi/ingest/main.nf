@@ -10,7 +10,7 @@ workflow INGEST_SAMPLESHEET {
       .flatMap { text ->
         def lines = text.readLines().findAll { it.trim() }
         if (!lines) return []
-        def header = lines.head().split(/,\s*/)
+        def header = lines.head().split(/,\s*/) as List //Convert to list
         def idx = header.collectEntries { [ (it): header.indexOf(it) ] }
         def required = [ 'sample_id', 'fastq_1' ]
         required.each { if (!idx.containsKey(it)) throw new IllegalArgumentException("Missing column: ${it}") }
@@ -30,10 +30,16 @@ workflow INGEST_SAMPLESHEET {
             batch: idx.containsKey('batch') ? cols[idx['batch']] : null,
             single_end: fq2 == null
           ]
-          def tuples = [ tuple(meta, fq1) ]
-          if (fq2) tuples << tuple(meta, fq2)
-          return tuples
-        }.flatten()
+
+  
+          if (fq2) {
+            // Paired-end: tuple with meta and both files
+            return tuple(meta, [fq1, fq2])
+          } else {
+            // Single-end: tuple with meta and single file
+            return tuple(meta, fq1)
+          }
+        }
       }
       .set { reads }
 

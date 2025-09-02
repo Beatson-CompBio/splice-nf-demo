@@ -11,20 +11,24 @@ process MULTIQC {
       'biocontainers/multiqc:1.30--pyhdfd78af_0' }"
 
   input:
-    // Any value to act as a barrier to FastQC completion
-    val(done_flag)
+    path(multiqc_files, stageAs: "?/*")
+    path(multiqc_config, stageAs: "multiqc_config.yml")
 
   output:
     path "multiqc_report.html", emit: report
-    path "multiqc_data",        emit: data
+    path "multiqc_report_data",        emit: data
 
   when:
     !params.skip_multiqc
 
   script:
-  def cfg = params.multiqc_config ? "-c ${params.multiqc_config}" : "-c ${projectDir}/assets/multiqc_config.yml"
-  def src = params.outdir ? params.outdir + "/qc/fastqc" : "${projectDir}/results/qc/fastqc"
+  def config_opt = multiqc_config.name != 'OPTIONAL_FILE' ? "--config ${multiqc_config}" : ''
   """
-  multiqc --force --outdir . --filename multiqc_report.html ${cfg} ${src}
+  multiqc \\
+    --force \\
+    --outdir . \\
+    --filename multiqc_report.html \\
+    ${config_opt} \\
+    .
   """
 }

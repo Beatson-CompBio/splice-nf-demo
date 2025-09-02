@@ -1,0 +1,3 @@
+fastqc:
+  - modules/cruksi/fastqc/**
+  - tests/modules/cruksi/fastqc/**

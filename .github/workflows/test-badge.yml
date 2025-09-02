@@ -1,0 +1,21 @@
+name: Update Test Badge
+on:
+  workflow_run:
+    workflows: ["nf-test"]
+    types:
+      - completed
+
+jobs:
+  badge:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Update Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GITHUB_TOKEN }}
+          gistID: 99f7f05dbdeb549636f776a6867a448c  # Create a gist and put ID here
+          filename: test-badge.json
+          label: Module Tests
+          message: ${{ github.event.workflow_run.conclusion == 'success' && 'passing' || 'failing' }}
+          color: ${{ github.event.workflow_run.conclusion == 'success' && 'brightgreen' || 'red' }}

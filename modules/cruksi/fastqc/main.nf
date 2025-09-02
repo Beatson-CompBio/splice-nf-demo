@@ -17,13 +17,32 @@ process FASTQC {
   output:
     tuple val(meta), path("*.html"), emit: html
     tuple val(meta), path("*.zip"),  emit: zip
+    path "versions.yml"            , emit: versions
 
   when:
     !params.skip_fastqc
 
   script:
-  def extra = ''
+  def args = task.ext.args ?: ''
+  def prefix = task.ext.prefix ?: "${meta.id}"
   """
   fastqc --quiet --outdir . ${reads}
+  
+  cat <<-END_VERSIONS > versions.yml
+  "${task.process}":
+      fastqc: \$(fastqc --version | sed -e "s/FastQC v//g")
+  END_VERSIONS
+  """
+
+  stub:
+  def prefix = task.ext.prefix ?: "${meta.id}"
+  """
+  touch ${prefix}.html
+  touch ${prefix}.zip
+  
+  cat <<-END_VERSIONS > versions.yml
+  "${task.process}":
+      fastqc: \$(fastqc --version | sed -e "s/FastQC v//g")
+  END_VERSIONS
   """
 }

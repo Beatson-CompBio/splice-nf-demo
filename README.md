@@ -1,6 +1,6 @@
 # splice-nf-demo
 
-[![Module Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/siddharthjayaraman/99f7f05dbdeb549636f776a6867a448c/raw/test-badge.json)](https://github.com/Beatson-CompBio/splice-nf-demo/actions/workflows/nf-test.yml)
+[![nf-test](https://github.com/Beatson-CompBio/splice-nf-demo/actions/workflows/nf-test.yml/badge.svg)](https://github.com/Beatson-CompBio/splice-nf-demo/actions/workflows/nf-test.yml)
 
 A minimal **SPLICE‑compliant** Nextflow DSL2 workflow that runs **FastQC → MultiQC**. This README shows how to run the *demo pipeline* with **Singularity** either:
 

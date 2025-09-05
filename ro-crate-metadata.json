@@ -1,10 +1,170 @@
 {
   "@context": "https://w3id.org/ro/crate/1.1/context",
-  "@id": "ro-crate-metadata.json",
-  "@type": "ComputationalWorkflow",
-  "conformsTo": { "@id": "https://w3id.org/ro/crate/1.1" },
-  "about": { "@id": "./" },
-  "name": "splice-nf-demo FASTQ QC with FastQC and MultiQC Report",
-  "version": "0.1.0",
-  "programmingLanguage": {"@id": "https://nextflow.io"}
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "ro-crate-metadata.json",
+      "conformsTo": {"@id": "https://w3id.org/ro/crate/1.1"},
+      "about": {"@id": "./"}
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "splice-nf-demo: FASTQ QC Pipeline",
+      "description": "A Nextflow pipeline for quality control of FASTQ files using FastQC and MultiQC, designed for the SPLICE CRUKSI HPC data platform.",
+      "version": "0.2.0",
+      "dateCreated": "2025-09-05",
+      "license": {"@id": "https://spdx.org/licenses/MIT"},
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Siddharth Jayaraman",
+          "@id": "https://github.com/siddharthjayaraman"
+        }
+      ],
+      "hasPart": [
+        {"@id": "main.nf"},
+        {"@id": "nextflow.config"},
+        {"@id": "workflows/qc.nf"},
+        {"@id": "modules/cruksi/fastqc/main.nf"},
+        {"@id": "modules/cruksi/multiqc/main.nf"},
+        {"@id": "subworkflows/cruksi/ingest/main.nf"},
+        {"@id": "conf/base.config"},
+        {"@id": "conf/test.config"},
+        {"@id": "nextflow_schema.json"}
+      ],
+      "mainEntity": {"@id": "main.nf"}
+    },
+    {
+      "@id": "main.nf",
+      "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
+      "name": "Main Nextflow Workflow",
+      "description": "Main entry point for the FASTQ QC pipeline",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"},
+      "creator": [
+        {
+          "@type": "Person",
+          "name": "Siddharth Jayaraman",
+          "@id": "https://github.com/siddharthjayaraman"
+        }
+      ],
+      "input": [
+        {
+          "@id": "#input_fastq",
+          "@type": "FormalParameter",
+          "name": "input",
+          "description": "Path to samplesheet CSV file containing sample information",
+          "valueRequired": false,
+          "defaultValue": null
+        },
+        {
+          "@id": "#reads_glob",
+          "@type": "FormalParameter", 
+          "name": "reads",
+          "description": "Glob pattern for FASTQ files (alternative to samplesheet)",
+          "valueRequired": false,
+          "defaultValue": null
+        },
+        {
+          "@id": "#job_id",
+          "@type": "FormalParameter",
+          "name": "job_id", 
+          "description": "UUID job identifier for SPLICE data platform",
+          "valueRequired": false,
+          "defaultValue": null
+        },
+        {
+          "@id": "#short_job_id",
+          "@type": "FormalParameter",
+          "name": "short_job_id",
+          "description": "Short job identifier for SLURM job naming",
+          "valueRequired": false,
+          "defaultValue": null
+        }
+      ],
+      "output": [
+        {
+          "@id": "#fastqc_reports",
+          "@type": "FormalParameter",
+          "name": "FastQC Reports",
+          "description": "HTML and ZIP files containing FastQC quality control reports"
+        },
+        {
+          "@id": "#multiqc_report", 
+          "@type": "FormalParameter",
+          "name": "MultiQC Report",
+          "description": "Aggregated quality control report in HTML format"
+        }
+      ]
+    },
+    {
+      "@id": "nextflow.config",
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "Nextflow Configuration",
+      "description": "Main configuration file with parameters and execution profiles including SPLICE CRUKSI HPC profile",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "workflows/qc.nf",
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "QC Workflow",
+      "description": "Quality control workflow orchestrating FastQC and MultiQC processes",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "modules/cruksi/fastqc/main.nf",
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "FastQC Module",
+      "description": "Nextflow process module for running FastQC quality control",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "modules/cruksi/multiqc/main.nf", 
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "MultiQC Module",
+      "description": "Nextflow process module for generating MultiQC reports",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "subworkflows/cruksi/ingest/main.nf",
+      "@type": ["File", "SoftwareSourceCode"], 
+      "name": "Samplesheet Ingestion Subworkflow",
+      "description": "Subworkflow for parsing and validating samplesheet CSV files",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "conf/base.config",
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "Base Configuration",
+      "description": "Base resource configuration with conservative defaults",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "conf/test.config", 
+      "@type": ["File", "SoftwareSourceCode"],
+      "name": "Test Configuration",
+      "description": "Test profile configuration with minimal resource requirements",
+      "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"}
+    },
+    {
+      "@id": "nextflow_schema.json",
+      "@type": ["File", "Dataset"],
+      "name": "Nextflow Parameter Schema",
+      "description": "JSON schema defining and validating pipeline parameters",
+      "encodingFormat": "application/json"
+    },
+    {
+      "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
+      "@type": "ComputerLanguage",
+      "name": "Nextflow",
+      "alternateName": "nf",
+      "url": "https://nextflow.io",
+      "version": "23.04.0"
+    },
+    {
+      "@id": "https://spdx.org/licenses/MIT",
+      "@type": "CreativeWork",
+      "name": "MIT License"
+    }
+  ]
 }

@@ -1,0 +1,26 @@
+# Simple Tower Configuration for SPLICE FASTQ QC Pipeline
+
+reports:
+  # Main MultiQC Report
+  "*/qc/multiqc/multiqc_report.html":
+    display: "MultiQC Quality Control Report"
+    mimeType: "text/html"
+
+  # FastQC Individual Reports  
+  "*/qc/fastqc/*.html":
+    display: "FastQC Reports"
+    mimeType: "text/html"
+
+  # Key Data Files
+  "*/qc/multiqc/multiqc_report_data/multiqc_general_stats.txt":
+    display: "General Statistics"
+    mimeType: "text/plain"
+
+  "*/qc/multiqc/multiqc_report_data/multiqc_data.json":
+    display: "MultiQC Data"
+    mimeType: "application/json"
+
+  # Software Versions
+  "*/qc/fastqc/versions.yml":
+    display: "Software Versions"
+    mimeType: "text/yaml"

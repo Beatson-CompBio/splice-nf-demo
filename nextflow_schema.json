@@ -10,18 +10,21 @@
       "type": "object",
       "fa_icon": "fas fa-terminal",
       "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir"],
       "properties": {
         "input": {
-          "type": "string",
+          "type": ["string", "null"],
           "format": "file-path",
-          "exists": true,
-          "schema": "assets/schema_input.json",
           "mimetype": "text/csv",
           "pattern": "^\\S+\\.csv$",
           "description": "Path to comma-separated file containing information about the samples in the experiment.",
           "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
           "fa_icon": "fas fa-file-csv"
+        },
+        "reads": {
+          "type": ["string", "null"],
+          "description": "Glob pattern for FASTQ files (alternative to samplesheet input).",
+          "help_text": "Use this parameter to specify a glob pattern for FASTQ files when not using a samplesheet. Example: 'data/*.fastq.gz'",
+          "fa_icon": "fas fa-file"
         },
         "outdir": {
           "type": "string",
@@ -30,54 +33,150 @@
           "fa_icon": "fas fa-folder-open"
         }
       }
+    },
+    "splice_platform_options": {
+      "title": "SPLICE Data Platform options",
+      "type": "object",
+      "fa_icon": "fas fa-server",
+      "description": "Parameters specific to the SPLICE CRUKSI HPC data platform.",
+      "properties": {
+        "job_id": {
+          "type": ["string", "null"],
+          "description": "UUID job identifier used for output directory naming.",
+          "help_text": "This parameter is used by the SPLICE data platform to create unique output directories. Should be a UUID format.",
+          "fa_icon": "fas fa-id-card"
+        },
+        "short_job_id": {
+          "type": ["string", "null"],
+          "description": "Short job identifier used as prefix for SLURM job names.",
+          "help_text": "This parameter is used by the SPLICE data platform to prefix SLURM job names for easier identification in the queue.",
+          "fa_icon": "fas fa-tag"
+        }
+      }
+    },
+    "containerization_options": {
+      "title": "Containerization options",
+      "type": "object",
+      "fa_icon": "fas fa-box",
+      "description": "Options for containerization and packaging strategies.",
+      "properties": {
+        "packaging": {
+          "type": ["string", "null"],
+          "enum": ["conda", "apptainer", "singularity", "docker"],
+          "description": "Packaging strategy for software dependencies.",
+          "help_text": "Choose the containerization/packaging method: conda, apptainer, singularity, or docker.",
+          "fa_icon": "fas fa-cube"
+        },
+        "fastqc_sif": {
+          "type": ["string", "null"],
+          "description": "Path to FastQC Singularity/Apptainer SIF file for TRE environments.",
+          "fa_icon": "fas fa-file-archive"
+        },
+        "multiqc_sif": {
+          "type": ["string", "null"],
+          "description": "Path to MultiQC Singularity/Apptainer SIF file for TRE environments.",
+          "fa_icon": "fas fa-file-archive"
+        }
+      }
+    },
+    "pipeline_behavior_options": {
+      "title": "Pipeline behavior options",
+      "type": "object",
+      "fa_icon": "fas fa-cogs",
+      "description": "Options to control pipeline behavior and execution.",
+      "properties": {
+        "publish_dir_mode": {
+          "type": "string",
+          "default": "copy",
+          "enum": ["copy", "symlink", "rellink", "link"],
+          "description": "Method used to save pipeline results to output directory.",
+          "help_text": "The Nextflow publishDir directive mode parameter.",
+          "fa_icon": "fas fa-copy"
+        },
+        "skip_fastqc": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip FastQC quality control step.",
+          "fa_icon": "fas fa-forward"
+        },
+        "skip_multiqc": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip MultiQC report generation step.",
+          "fa_icon": "fas fa-forward"
+        },
+        "multiqc_config": {
+          "type": ["string", "null"],
+          "format": "file-path",
+          "description": "Path to custom MultiQC configuration file.",
+          "fa_icon": "fas fa-file-alt"
+        }
+      }
+    },
+    "resource_limits": {
+      "title": "Resource limits",
+      "type": "object",
+      "fa_icon": "fas fa-memory",
+      "description": "Maximum resource limits for pipeline execution.",
+      "properties": {
+        "max_cpus": {
+          "type": "integer",
+          "default": 8,
+          "minimum": 1,
+          "description": "Maximum number of CPUs that can be requested for any single job.",
+          "fa_icon": "fas fa-microchip"
+        },
+        "max_memory": {
+          "type": "string",
+          "default": "32 GB",
+          "pattern": "^\\d+(\\.\\d+)?\\s*(K|M|G|T)?B$",
+          "description": "Maximum amount of memory that can be requested for any single job.",
+          "help_text": "Use standard SI units (e.g. 128 GB).",
+          "fa_icon": "fas fa-memory"
+        },
+        "max_time": {
+          "type": "string",
+          "default": "24h",
+          "pattern": "^\\d+(\\.\\d+)?\\s*(s|m|h|d)$",
+          "description": "Maximum amount of time that can be requested for any single job.",
+          "help_text": "Use standard time units (e.g. 72h, 3d).",
+          "fa_icon": "fas fa-clock"
+        }
+      }
+    },
+    "methods_options": {
+      "title": "Methods description options",
+      "type": "object",
+      "fa_icon": "fas fa-file-text",
+      "description": "Options for methods description generation.",
+      "properties": {
+        "methods_description": {
+          "type": "string",
+          "format": "file-path",
+          "description": "Path to methods description template file.",
+          "fa_icon": "fas fa-file-text"
+        }
+      }
     }
   },
   "allOf": [
     {
       "$ref": "#/$defs/input_output_options"
+    },
+    {
+      "$ref": "#/$defs/splice_platform_options"
+    },
+    {
+      "$ref": "#/$defs/containerization_options"
+    },
+    {
+      "$ref": "#/$defs/pipeline_behavior_options"
+    },
+    {
+      "$ref": "#/$defs/resource_limits"
+    },
+    {
+      "$ref": "#/$defs/methods_options"
     }
-  ],
-  "properties": {
-    "reads": {
-      "type": "string"
-    },
-    "packaging": {
-      "type": "string"
-    },
-    "fastqc_sif": {
-      "type": "string"
-    },
-    "multiqc_sif": {
-      "type": "string"
-    },
-    "publish_dir_mode": {
-      "type": "string",
-      "default": "copy"
-    },
-    "skip_fastqc": {
-      "type": "boolean"
-    },
-    "skip_multiqc": {
-      "type": "boolean"
-    },
-    "multiqc_config": {
-      "type": "string"
-    },
-    "max_cpus": {
-      "type": "integer",
-      "default": 8
-    },
-    "max_memory": {
-      "type": "string",
-      "default": "32 GB"
-    },
-    "max_time": {
-      "type": "string",
-      "default": "24h"
-    },
-    "methods_description": {
-      "type": "string",
-      "default": "Enter methods description"
-    }
-  }
+  ]
 }

@@ -13,15 +13,9 @@
       "name": "splice-nf-demo: FASTQ QC Pipeline",
       "description": "A Nextflow pipeline for quality control of FASTQ files using FastQC and MultiQC, designed for the SPLICE CRUKSI HPC data platform.",
       "version": "0.2.0",
-      "dateCreated": "2025-09-05",
+      "datePublished": "2025-09-05",
       "license": {"@id": "https://spdx.org/licenses/MIT"},
-      "author": [
-        {
-          "@type": "Person",
-          "name": "Siddharth Jayaraman",
-          "@id": "https://github.com/siddharthjayaraman"
-        }
-      ],
+      "author": {"@id": "https://github.com/siddharthjayaraman"},
       "hasPart": [
         {"@id": "main.nf"},
         {"@id": "nextflow.config"},
@@ -41,60 +35,16 @@
       "name": "Main Nextflow Workflow",
       "description": "Main entry point for the FASTQ QC pipeline",
       "programmingLanguage": {"@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"},
-      "creator": [
-        {
-          "@type": "Person",
-          "name": "Siddharth Jayaraman",
-          "@id": "https://github.com/siddharthjayaraman"
-        }
-      ],
+      "creator": {"@id": "https://github.com/siddharthjayaraman"},
       "input": [
-        {
-          "@id": "#input_fastq",
-          "@type": "FormalParameter",
-          "name": "input",
-          "description": "Path to samplesheet CSV file containing sample information",
-          "valueRequired": false,
-          "defaultValue": null
-        },
-        {
-          "@id": "#reads_glob",
-          "@type": "FormalParameter", 
-          "name": "reads",
-          "description": "Glob pattern for FASTQ files (alternative to samplesheet)",
-          "valueRequired": false,
-          "defaultValue": null
-        },
-        {
-          "@id": "#job_id",
-          "@type": "FormalParameter",
-          "name": "job_id", 
-          "description": "UUID job identifier for SPLICE data platform",
-          "valueRequired": false,
-          "defaultValue": null
-        },
-        {
-          "@id": "#short_job_id",
-          "@type": "FormalParameter",
-          "name": "short_job_id",
-          "description": "Short job identifier for SLURM job naming",
-          "valueRequired": false,
-          "defaultValue": null
-        }
+        { "@id": "#input_fastq" },
+        { "@id": "#reads_glob" },
+        { "@id": "#job_id" },
+        { "@id": "#short_job_id" }
       ],
       "output": [
-        {
-          "@id": "#fastqc_reports",
-          "@type": "FormalParameter",
-          "name": "FastQC Reports",
-          "description": "HTML and ZIP files containing FastQC quality control reports"
-        },
-        {
-          "@id": "#multiqc_report", 
-          "@type": "FormalParameter",
-          "name": "MultiQC Report",
-          "description": "Aggregated quality control report in HTML format"
-        }
+        { "@id": "#fastqc_reports" },
+        { "@id": "#multiqc_report" }
       ]
     },
     {
@@ -162,9 +112,58 @@
       "version": "23.04.0"
     },
     {
+      "@id": "#input_fastq",
+      "@type": "FormalParameter",
+      "name": "input",
+      "description": "Path to samplesheet CSV file containing sample information",
+      "valueRequired": false,
+      "defaultValue": null
+    },
+    {
+      "@id": "#reads_glob",
+      "@type": "FormalParameter", 
+      "name": "reads",
+      "description": "Glob pattern for FASTQ files (alternative to samplesheet)",
+      "valueRequired": false,
+      "defaultValue": null
+    },
+    {
+      "@id": "#job_id",
+      "@type": "FormalParameter",
+      "name": "job_id", 
+      "description": "UUID job identifier for SPLICE data platform",
+      "valueRequired": false,
+      "defaultValue": null
+    },
+    {
+      "@id": "#short_job_id",
+      "@type": "FormalParameter",
+      "name": "short_job_id",
+      "description": "Short job identifier for SLURM job naming",
+      "valueRequired": false,
+      "defaultValue": null
+    },
+    {
+      "@id": "#fastqc_reports",
+      "@type": "FormalParameter",
+      "name": "FastQC Reports",
+      "description": "HTML and ZIP files containing FastQC quality control reports"
+    },
+    {
+      "@id": "#multiqc_report", 
+      "@type": "FormalParameter",
+      "name": "MultiQC Report",
+      "description": "Aggregated quality control report in HTML format"
+    },
+    {
       "@id": "https://spdx.org/licenses/MIT",
       "@type": "CreativeWork",
       "name": "MIT License"
+    },
+    {
+      "@id": "https://github.com/siddharthjayaraman",
+      "@type": "Person",
+      "name": "Siddharth Jayaraman"
     }
   ]
 }
